@@ -14,6 +14,7 @@
     >
       <div class="atwho-inner">
         <div class="atwho-view">
+          {{atwho.list}}
           <ul class="atwho-ul" v-if="atwho.list.length > 0">
             <li v-for="(item, index) in atwho.list"
               class="atwho-li"
