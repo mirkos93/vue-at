@@ -130,6 +130,7 @@ export default {
       }
     },
     members (nextValue) {
+      console.log('members', nextValue);
       this.allMembers = nextValue;
     },
     value (value, oldValue) {
