@@ -54,13 +54,17 @@ export default {
       type: Array,
       default: () => []
     },
+    emptyMembersMessage: {
+      type: String,
+      default: 'There is no one to tag'
+    },
     nameKey: {
       type: String,
       default: ''
     },
     filterMatch: {
       type: Function,
-      default: (name, chunk, at) => {
+      default: (name = this.value, chunk, at) => {
         // match at lower-case
         return name.toLowerCase()
           .indexOf(chunk.toLowerCase()) > -1
@@ -83,6 +87,7 @@ export default {
       // at[v-model] mode should be on only when
       // initial :value/v-model is present (not nil)
       bindsValue: this.value != null,
+      allMembers: this.members,
       customsEmbedded: false,
       hasComposition: false,
       atwho: null
@@ -124,7 +129,7 @@ export default {
         })
       }
     },
-    members () {
+    allMembers () {
       this.handleInput(true)
     },
     value (value, oldValue) {
@@ -210,13 +215,13 @@ export default {
           return
         }
 
-        const { atItems, members, suffix, deleteMatch, itemName } = this
+        const { atItems, allMembers, suffix, deleteMatch, itemName } = this
         const text = range.toString()
         const { at, index } = getAtAndIndex(text, atItems)
 
         if (index > -1) {
           const chunk = text.slice(index + at.length)
-          const has = members.some(v => {
+          const has = allMembers.some(v => {
             const name = itemName(v)
             return deleteMatch(name, chunk, suffix)
           })
@@ -314,11 +319,11 @@ export default {
         if (!show) {
           this.closePanel()
         } else {
-          const { members, filterMatch, itemName } = this
+          const { allMembers, filterMatch, itemName } = this
           if (!keep && chunk) { // fixme: should be consistent with AtTextarea.vue
             this.$emit('at', chunk)
           }
-          const matched = members.filter(v => {
+          const matched = allMembers.filter(v => {
             const name = itemName(v)
             return filterMatch(name, chunk, at)
           })
@@ -357,7 +362,7 @@ export default {
         this.atwho = {
           range,
           offset,
-          list,
+          list: list.length > 0 ? list : [],
           x: rect.left,
           y: rect.top - 4,
           cur: 0 // todo: 尽可能记录
@@ -371,9 +376,17 @@ export default {
     },
 
     scrollToCur () {
-      const curEl = this.$refs.cur[0]
-      const scrollParent = curEl.parentElement.parentElement // .atwho-view
-      scrollIntoView(curEl, scrollParent)
+      if(this.$refs.cur) {
+        /**
+         * checks that the fist element of the list is defined
+         * and avoid making this function error out
+         */
+        if (this.$refs.cur[0]) {
+          const curEl = this.$refs.cur[0]
+          const scrollParent = curEl.parentElement.parentElement // .atwho-view
+          scrollIntoView(curEl, scrollParent)
+        }
+      }
     },
     selectByMouse (e) {
       const el = closest(e.target, d => {
@@ -386,7 +399,7 @@ export default {
       }
     },
     selectByKeyboard (e) {
-      const offset = e.keyCode === 38 ? -1 : 1
+      const offset = e.keyCode === 38 || e.keyCode === 13 ? -1 : 1
       const { cur, list } = this.atwho
       const nextCur = this.loop
         ? (cur + offset + list.length) % list.length

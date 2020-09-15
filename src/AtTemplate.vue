@@ -14,7 +14,7 @@
     >
       <div class="atwho-inner">
         <div class="atwho-view">
-          <ul class="atwho-ul">
+          <ul class="atwho-ul" v-if="atwho.list.length > 0">
             <li v-for="(item, index) in atwho.list"
               class="atwho-li"
               :key="index"
@@ -26,6 +26,13 @@
             >
               <slot name="item" :item="item">
                 <span v-text="itemName(item)"></span>
+              </slot>
+            </li>
+          </ul>
+          <ul class="atwho-ul" v-else>
+            <li class="atwho-li">
+              <slot name="emptyList">
+                <span v-text="emptyMembersMessage"></span>
               </slot>
             </li>
           </ul>
