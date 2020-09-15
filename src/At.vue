@@ -123,7 +123,7 @@ export default {
   },
   watch: {
     'atwho.cur' (index) {
-      if (index != null) { // cur index exists
+      if (index !== null) { // cur index exists
         this.$nextTick(() => {
           this.scrollToCur()
         })
@@ -332,14 +332,11 @@ export default {
             return filterMatch(name, chunk, at)
           })
 
-          show = false
-          if (matched.length) {
-            show = true
-            if (!showUnique) {
-              let item = matched[0]
-              if (chunk === itemName(item)) {
-                show = false
-              }
+          show = true
+          if (!showUnique) {
+            let item = matched[0]
+            if (chunk === itemName(item)) {
+              show = false
             }
           }
 
