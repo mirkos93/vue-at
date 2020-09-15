@@ -91,6 +91,7 @@ export default {
           if (!keep) { // fixme: should be consistent with At.vue
             this.$emit('at', chunk)
           }
+          console.log('allMembers', allMembers);
           const matched = allMembers.filter(v => {
             const name = itemName(v)
             return filterMatch(name, chunk, at)
