@@ -129,8 +129,8 @@ export default {
         })
       }
     },
-    allMembers () {
-      this.handleInput(true)
+    members (nextValue) {
+      this.allMembers = nextValue;
     },
     value (value, oldValue) {
       if (this.bindsValue) {
@@ -149,8 +149,12 @@ export default {
 
   methods: {
     itemName (v) {
-      const { nameKey } = this
-      return nameKey ? v[nameKey] : v
+      if ( v ) {
+        const {nameKey} = this
+        return nameKey ? v[nameKey] : v
+      }
+
+      return '';
     },
     isCur (index) {
       return index === this.atwho.cur
@@ -368,6 +372,7 @@ export default {
           cur: 0 // todo: 尽可能记录
         }
       }
+
       if (this.atwho) {
         fn()
       } else { // 焦点超出了显示区域 需要提供延时以移动指针 再计算位置
