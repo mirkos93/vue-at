@@ -289,6 +289,7 @@ export default {
       this.handleInput()
     },
     handleInput (keep) {
+    	console.log('handleInput');
       if (this.hasComposition) return
       const el = this.$el.querySelector('[contenteditable]')
       this.$emit('input', el.innerHTML)
