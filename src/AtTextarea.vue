@@ -39,11 +39,11 @@ export default {
       const el = this.$el.querySelector('textarea')
       const text = el.value.slice(0, el.selectionEnd)
       if (text) {
-        const { atItems, members, suffix, deleteMatch, itemName } = this
+        const { atItems, allMembers, suffix, deleteMatch, itemName } = this
         const { at, index } = getAtAndIndex(text, atItems)
         if (index > -1) {
           const chunk = text.slice(index + at.length)
-          const has = members.some(v => {
+          const has = allMembers.some(v => {
             const name = itemName(v)
             return deleteMatch(name, chunk, suffix)
           })
@@ -85,11 +85,11 @@ export default {
         if (!show) {
           this.closePanel()
         } else {
-          const { members, filterMatch, itemName } = this
+          const { allMembers, filterMatch, itemName } = this
           if (!keep) { // fixme: should be consistent with At.vue
             this.$emit('at', chunk)
           }
-          const matched = members.filter(v => {
+          const matched = allMembers.filter(v => {
             const name = itemName(v)
             return filterMatch(name, chunk, at)
           })

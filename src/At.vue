@@ -289,7 +289,6 @@ export default {
       this.handleInput()
     },
     handleInput (keep) {
-    	console.log('handleInput');
       if (this.hasComposition) return
       const el = this.$el.querySelector('[contenteditable]')
       this.$emit('input', el.innerHTML)
@@ -358,6 +357,7 @@ export default {
       }
     },
     openPanel (list, range, offset, at) {
+    	
       const fn = () => {
         const r = range.cloneRange()
         r.setStart(r.endContainer, offset + at.length) // 从@后第一位开始
