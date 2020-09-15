@@ -319,7 +319,7 @@ export default {
 
         // chunk以空白字符开头不匹配 避免`@ `也匹配
         if (/^\s/.test(chunk)) show = false
-
+        console.log('show', show);
         if (!show) {
           this.closePanel()
         } else {
