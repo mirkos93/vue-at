@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <at :members="members" name-key="name" v-model="html">
+    <at :members="membersEmpty" name-key="name" v-model="html">
       <!-- custom: same as default slot -->
       <!-- <template v-slot:item="s">
         <span v-text="s.item"></span>
@@ -73,6 +73,7 @@
 // import AtTa from '../dist/vue-at-textarea'
 import At from './At.vue'
 import AtTa from './AtTextarea.vue'
+let membersEmpty = []
 
 let members = [
   /* eslint-disable */
@@ -97,6 +98,7 @@ export default {
   name: 'app',
   data () {
     const data = {
+      membersEmpty,
       members,
       text: `
 <<< Textarea >>>

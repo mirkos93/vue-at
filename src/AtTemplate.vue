@@ -8,8 +8,7 @@
     @input="handleInput()"
     @keydown.capture="handleKeyDown"
   >
-    <div v-if="atwho"
-      class="atwho-panel"
+    <div class="atwho-panel"
       :style="style"
     >
       <div class="atwho-inner">
